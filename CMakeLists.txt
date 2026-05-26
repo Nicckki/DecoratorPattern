@@ -12,7 +12,7 @@ add_test(NAME SimpleRun COMMAND message_decorator)
 install(TARGETS message_decorator DESTINATION /usr/local/bin)
 
 set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Your Name <email@example.com>")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Nicckki <nicckki@example.com>")
 set(CPACK_PACKAGE_DESCRIPTION "Decorator Pattern Example")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 include(CPack)

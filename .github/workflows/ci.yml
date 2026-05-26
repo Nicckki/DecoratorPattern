@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    strategy:
+      matrix:
+        cpp_standard: [11, 14, 17]
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -18,19 +22,30 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y cmake build-essential
     
-    - name: Build
+    - name: Build with C++${{ matrix.cpp_standard }}
       run: |
         mkdir -p build
         cd build
-        cmake ..
+        cmake .. -DCMAKE_CXX_STANDARD=${{ matrix.cpp_standard }}
         make
     
-    - name: Test
+    - name: Run tests
       run: |
         cd build
-        ctest
+        ctest --output-on-failure
     
-    - name: Package
+    - name: Output result (1 or 2)
+      run: |
+        echo "====================================="
+        echo "C++ Standard: ${{ matrix.cpp_standard }}"
+        if [ ${{ matrix.cpp_standard }} -eq 11 ]; then
+          echo "RESULT: 2 - Expected failure (C++11 doesn't support make_unique)"
+        else
+          echo "RESULT: 1 - Success (C++${{ matrix.cpp_standard }} works)"
+        fi
+        echo "====================================="
+    
+    - name: Package deb
       run: |
         cd build
         cpack
