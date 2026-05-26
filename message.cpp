@@ -147,3 +147,4 @@ int main()
         std::cout << "Serialized Data : " << message->Serialize() << '\n' << std::endl;
     }
 }
+# Test
